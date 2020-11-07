@@ -1,1 +1,3 @@
-# top-rock-paper-scissors
+# Google homepage
+## The Odin Project: Web Development 101
+### **Project: Rock Paper Scissors**
