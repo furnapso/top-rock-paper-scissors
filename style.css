@@ -1,0 +1,19 @@
+:root, html, body {height: 100%; width: 100%; padding: 0; margin: 0;}
+
+#main {
+    height: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+button {
+    font-size: 20px;
+}
+
+.hidden {
+    display: none;
+}
