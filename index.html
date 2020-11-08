@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        
+        <script>
+            // computerPlay function that will randomly choose Rock, Paper or Scissors
+            function computerPlay() {
+                const choices = ['rock', 'paper', 'scissors'];
+                return choices[Math.floor(Math.random() * 3)];
+            }
+
+            // playRound function that will take playerChoice and computerPlay and output the winner
+
+            function playRound(computerSelection, playerSelection) {
+                let winner = "player";
+
+                if (computerSelection == playerSelection) {
+                    winner = "tie";
+                }
+
+                else if (playerSelection == "rock") {
+                    if (computerSelection == "paper") winner = "computer";
+                }
+
+                else if (playerSelection == "paper") {
+                    if (computerSelection == "scissors") winner = "computer";
+                }
+
+                else if (playerSelection == "scissors") {
+                    if (computerSelection == "rock") winner = "computer";
+                }
+                
+                return winner;
+            }
+
+            // game function that will play 5 rounds and reports a winner or loser at the end
+            function game(rounds) {
+                let wins = 0;
+                let losses = 0;
+                for (i = 0; i < rounds; i++) {
+                    let playerSelection = prompt("Rock, paper or scissors?").toLowerCase();
+                    let computerSelection = computerPlay();
+                    let winner = playRound(playerSelection, computerSelection);
+                    let message;
+                    switch (winner) {
+                        case "tie":
+                            message = "it's a tie!";
+                            break;
+                        case "computer":
+                            message = "you lose!";
+                            losses++;
+                            break;
+                        case "player":
+                            message = "you win!";
+                            wins++;
+                            break;
+                    }
+                    console.log("Computer chose " + computerSelection + " - " + message)
+                }
+
+                console.log(`You won ${wins} round${(wins > 1 || wins == 0) ? "s":""} and lost ${losses} round${(losses > 1 || losses == 0) ? "s": ""}.`)
+            }
+        </script>
+    </body>
+</html>
