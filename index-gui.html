@@ -31,10 +31,14 @@
                     <span class="computer">COMPUTER</span><span class="computer-score">0</span>
                     <span class="player">PLAYER</span><span class="player-score">0</span>
                 </div>
-                <div class="message"></div>
+                <div class="message">
+                    <span class="player-choice"></span>
+                    <span class="computer-choice"></span>
+                    <span class="outcome"></span>
+                </div>
             </div>
             
-            <div id="reset"class="button">RESET</div>
+            <div id="reset" class="button reset">RESET</div>
         </div>
         
         <script>
@@ -43,27 +47,64 @@
                 item.addEventListener('click', () => {
                     let playerChoice;
                     let classes = item.classList;
+
                     for (let i = 0; i < classes.length; i++) {
                         if (classes[i] == "button") continue;
                         else playerChoice = classes[i];
                     }
 
-                    let computerChoice = computerPlay();
+                    if (playerChoice == "reset") {
+                        updateScore(playerChoice);
 
-                    let winner = playRound(computerChoice, playerChoice);
+                        document.querySelector(".message").querySelectorAll("span").forEach(item => {
+                            item.textContent = "";
+                        })
+                    }
+                    else {
+                        let computerChoice = computerPlay();
 
-                    updateScore(winner);
+                        let winner = playRound(computerChoice, playerChoice);
+
+                        updateScore(winner);
+
+                        updateMessage(playerChoice, computerChoice, winner);
+                    }
                 })
             })
 
-            function updateScore(winner) {
+            function updateMessage(playerChoice, computerChoice, winner) {
+                document.querySelector(".player-choice").textContent = `You chose ${playerChoice}.`;
+                document.querySelector(".computer-choice").textContent = `Computer chose ${computerChoice}.`;
+                let message;
+                switch (winner) {
+                    case "player":
+                        message = "You win!";
+                        break;
+                    case "computer":
+                        message = "Computer wins!";
+                        break;
+                    case "tie":
+                        message = "It's a tie!";
+                        break;
+                }
+
+                document.querySelector(".outcome").textContent = message;
+            }
+
+            function updateScore(update) {
                 const computer = document.querySelector(".computer-score");
                 const player = document.querySelector(".player-score");
                 let computerScore = parseInt(computer.textContent);
                 let playerScore = parseInt(player.textContent);
 
-                if (winner == "computer") {computer.textContent = (computerScore + 1).toString();}
-                else if (winner == "player") {player.textContent = (playerScore + 1).toString();}
+                console.log(update);
+
+                if (update == "computer") {computer.textContent = (computerScore + 1).toString();}
+                else if (update == "player") {player.textContent = (playerScore + 1).toString();}
+                else if (update == "reset") {
+                    player.textContent = "0";
+                    computer.textContent = "0";
+                }
             }
 
             // computerPlay function that will randomly choose Rock, Paper or Scissors
