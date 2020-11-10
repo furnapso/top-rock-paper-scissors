@@ -61,3 +61,16 @@ body {
     background-color: var(--lowlight);
     cursor: pointer;
 }
+
+#info {
+    color: black;
+    font-weight: bold;
+    width: 200px;
+    text-align: center;
+}
+
+.score {
+    display: grid;
+    grid-template-areas: "computer computer-score"
+    "player player-score";
+}
