@@ -31,10 +31,41 @@
                     <span class="computer">COMPUTER</span><span class="computer-score">0</span>
                     <span class="player">PLAYER</span><span class="player-score">0</span>
                 </div>
+                <div class="message"></div>
             </div>
+            
+            <div id="reset"class="button">RESET</div>
         </div>
         
         <script>
+
+            document.querySelectorAll(".button").forEach(item => {
+                item.addEventListener('click', () => {
+                    let playerChoice;
+                    let classes = item.classList;
+                    for (let i = 0; i < classes.length; i++) {
+                        if (classes[i] == "button") continue;
+                        else playerChoice = classes[i];
+                    }
+
+                    let computerChoice = computerPlay();
+
+                    let winner = playRound(computerChoice, playerChoice);
+
+                    updateScore(winner);
+                })
+            })
+
+            function updateScore(winner) {
+                const computer = document.querySelector(".computer-score");
+                const player = document.querySelector(".player-score");
+                let computerScore = parseInt(computer.textContent);
+                let playerScore = parseInt(player.textContent);
+
+                if (winner == "computer") {computer.textContent = (computerScore + 1).toString();}
+                else if (winner == "player") {player.textContent = (playerScore + 1).toString();}
+            }
+
             // computerPlay function that will randomly choose Rock, Paper or Scissors
             function computerPlay() {
                 const choices = ['rock', 'paper', 'scissors'];
