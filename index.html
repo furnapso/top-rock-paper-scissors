@@ -5,19 +5,110 @@
 <!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
 <html>
     <head>
+        <link rel="shortcut icon" href="favicon.ico">
+        <link rel="icon" href="favicon.ico">
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
+        <title>ROCK PAPER SCISSORS</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
         <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="https://www.google.com/intl/en_au/chrome/>upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
+        <div id="main">
+            <div id="header">
+                <h1 class="main-header">ROCK PAPER SCISSORS</h1>
+                <h2 class="sub-header">Make your choice</h2>
+            </div>
+            <div id="buttons">
+                <a class="button rock">ROCK</a>
+                <a class="button paper">PAPER</a>
+                <a class="button scissors">SCISSORS</a>
+            </div>
+            <div id="info">
+                <div class="score">
+                    <span class="computer">COMPUTER</span><span class="computer-score">0</span>
+                    <span class="player">PLAYER</span><span class="player-score">0</span>
+                </div>
+                <div class="message">
+                    <span class="player-choice"></span>
+                    <span class="computer-choice"></span>
+                    <span class="outcome"></span>
+                </div>
+            </div>
+            
+            <div id="reset" class="button reset">RESET</div>
+        </div>
         
         <script>
+
+            document.querySelectorAll(".button").forEach(item => {
+                item.addEventListener('click', () => {
+                    let playerChoice;
+                    let classes = item.classList;
+
+                    for (let i = 0; i < classes.length; i++) {
+                        if (classes[i] == "button") continue;
+                        else playerChoice = classes[i];
+                    }
+
+                    if (playerChoice == "reset") {
+                        updateScore(playerChoice);
+
+                        document.querySelector(".message").querySelectorAll("span").forEach(item => {
+                            item.textContent = "";
+                        })
+                    }
+                    else {
+                        let computerChoice = computerPlay();
+
+                        let winner = playRound(computerChoice, playerChoice);
+
+                        updateScore(winner);
+
+                        updateMessage(playerChoice, computerChoice, winner);
+                    }
+                })
+            })
+
+            function updateMessage(playerChoice, computerChoice, winner) {
+                document.querySelector(".player-choice").textContent = `You chose ${playerChoice}.`;
+                document.querySelector(".computer-choice").textContent = `Computer chose ${computerChoice}.`;
+                let message;
+                switch (winner) {
+                    case "player":
+                        message = "You win!";
+                        break;
+                    case "computer":
+                        message = "Computer wins!";
+                        break;
+                    case "tie":
+                        message = "It's a tie!";
+                        break;
+                }
+
+                document.querySelector(".outcome").textContent = message;
+            }
+
+            function updateScore(update) {
+                const computer = document.querySelector(".computer-score");
+                const player = document.querySelector(".player-score");
+                let computerScore = parseInt(computer.textContent);
+                let playerScore = parseInt(player.textContent);
+
+                console.log(update);
+
+                if (update == "computer") {computer.textContent = (computerScore + 1).toString();}
+                else if (update == "player") {player.textContent = (playerScore + 1).toString();}
+                else if (update == "reset") {
+                    player.textContent = "0";
+                    computer.textContent = "0";
+                }
+            }
+
             // computerPlay function that will randomly choose Rock, Paper or Scissors
             function computerPlay() {
                 const choices = ['rock', 'paper', 'scissors'];
@@ -47,6 +138,8 @@
                 
                 return winner;
             }
+
+
 
             // game function that will play 5 rounds and reports a winner or loser at the end
             function game(rounds) {
